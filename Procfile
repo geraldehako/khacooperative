@@ -1,0 +1,1 @@
+web: gunicorn Prologicielsucces.wsgi --log-file -
