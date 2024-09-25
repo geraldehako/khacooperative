@@ -1,0 +1,171 @@
+{% extends 'Base/base.html' %}
+
+{% block content %}
+    <!-- start page title -->
+    <style>
+        /* Appliquer HelveticaNeue à l'ensemble du bloc de contenu */
+        body {
+            font-family: 'HelveticaNeue', sans-serif;
+        }
+    
+        /* Style personnalisé pour les boutons */
+        .btn-custom {
+            background-color: #072C84;
+            color: white;
+            font-family: 'HelveticaNeue', sans-serif; /* Assurez-vous que la police est également appliquée ici */
+        }
+    
+        /* Autres styles pour le tableau, titres, etc. */
+        h4, h6 {
+            font-family: 'HelveticaNeue', sans-serif;
+        }
+    </style>
+    <div class="row">
+        <div class="col-12">
+            <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+                <h4 class="mb-sm-0 font-size-18">KHA Coop</h4>
+
+                <div class="page-title-right">
+                    <ol class="breadcrumb m-0">
+                        <li class="breadcrumb-item"><a href="{% url 'liste_comptes_prets' %}">Comptes de Prêts</a></li>
+                        <li class="breadcrumb-item active">Ajouter un Compte de Prêt</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- end page title -->
+
+    <div class="row">
+        <div class="col-lg-12"> 
+            <div class="card">
+                <div class="card-body">
+                    {% if etud %}
+                    <h4 class="card-title mb-4">Formulaire Enregistrement de Prêt du Client <span class="badge badge-pill badge-soft-danger font-size-11">{{ etud.0.nom }} {{ etud.0.prenom }}</span></h4>
+                    {% endif %}
+
+                    <form method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <div class="form-group" hidden>
+                            <label for="id_client">Client</label>
+                            {{ form.client }}
+                        </div>
+                        <div class="form-group" hidden>
+                            <label for="id_taux_interet">Taux d'Intérêt</label>
+                            {{ form.taux_interet }}
+                        </div>
+                        <!-- API___ Juillet 2 -->
+                        <div class="col-md-4" hidden>
+                            <div class="mb-3">
+                                <label for="formrow-email-input" class="form-label">Type pret</label>
+                                {{ form.type_pret }}
+                            </div> 
+                        </div>
+                                <!-- API___ Juillet 2 -->
+                        <div class="row">
+                            <!-- MAJ JANV --> 
+                            <div class="col-md-1">
+                                <div class="mb-3">
+                                    <label for="formrow-email-input" class="form-label">Type client</label>
+                                    {{ form.type_client }}
+                                </div> 
+                            </div>
+                            <div class="col-md-2">
+                                <div class="mb-3">
+                                    <label for="formrow-email-input" class="form-label">Commercial</label>
+                                    {{ form.com }}
+                                </div> 
+                            </div>
+                                    
+                            <!-- MAJ JANV --> 
+                            <div class="col-md-1">
+                                <div class="mb-3">
+                                    <label for="formrow-email-input" class="form-label">Durée en Mois</label>
+                                    {{ form.duree_en_mois }}
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="mb-3">
+                                    <label for="formrow-email-input" class="form-label">Date de Début de Prêt</label>
+                                    {{ form.date_debut_pret }}
+                                </div>
+                            </div>
+                        
+                        
+                            <div class="col-md-2">
+                                <div class="mb-3">
+                                    <label for="id_somme_initiale" class="form-label">Somme Initiale</label>
+                                    {{ form.somme_initiale }}
+                                </div>
+                            </div>
+                            
+                            
+                            <div class="col-md-4">
+                                <div class="mb-3">
+                                    <label for="formrow-email-input" class="form-label">Domicile Bancaire</label>
+                                    {{ form.domicile_bancaire }}
+                                </div>
+                            </div>
+                        </div>
+
+                        
+
+                         
+
+                        
+
+                        
+                        <div class="mt-4 hstack gap-2">
+                            <button id="submitBtn" type="submit" class="btn btn-soft-success w-100" >Valider</button>
+
+                            <a class="btn btn-soft-primary w-100" href="{% url 'liste_comptes_prets' %}">Retour en Arrière</a>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        function updateDateFin() {
+            const dateDebutPret = new Date(document.getElementById('id_date_debut_pret').value);
+            const dureeEnMois = parseInt(document.getElementById('id_duree_en_mois').value);
+            const dateFinPret = new Date(dateDebutPret);
+            dateFinPret.setMonth(dateDebutPret.getMonth() + dureeEnMois);
+            document.getElementById('id_date_fin_pret').valueAsDate = dateFinPret;
+        }
+
+        updateDateFin();
+        document.getElementById('id_duree_en_mois').addEventListener('input', updateDateFin);
+    </script>
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                const sommeInitialeInput = document.getElementById('id_somme_initiale');
+                const dureeEnMoisInput = document.getElementById('id_duree_en_mois');
+                const tauxInteretInput = document.getElementById('id_taux_interet');
+                const submitBtn = document.getElementById('submitBtn');
+        
+                function updateSubmitButton() {
+                    const sommeInitialeValue = parseFloat(sommeInitialeInput.value);
+                    const dureeEnMoisValue = parseInt(dureeEnMoisInput.value);
+                    const tauxInteretValue = parseFloat(tauxInteretInput.value);
+        
+                    if (isNaN(sommeInitialeValue) || sommeInitialeValue <= 0 ||
+                        isNaN(dureeEnMoisValue) || dureeEnMoisValue <= 0 ||
+                        isNaN(tauxInteretValue) || tauxInteretValue <= 0) {
+                        submitBtn.disabled = true;
+                    } else {
+                        submitBtn.disabled = false;
+                    }
+                }
+        
+                sommeInitialeInput.addEventListener('input', updateSubmitButton);
+                dureeEnMoisInput.addEventListener('input', updateSubmitButton);
+                tauxInteretInput.addEventListener('input', updateSubmitButton);
+            });
+        </script>
+        
+            
+        
+    
+{% endblock content %}

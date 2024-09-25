@@ -1,0 +1,50 @@
+{% extends 'Base/base2.html' %}
+
+{% block content %}
+<style>
+    /* Appliquer HelveticaNeue à l'ensemble du bloc de contenu */
+    body {
+        font-family: 'HelveticaNeue', sans-serif;
+    }
+
+    /* Style personnalisé pour les boutons */
+    .btn-custom {
+        background-color: #072C84;
+        color: white;
+        font-family: 'HelveticaNeue', sans-serif; /* Assurez-vous que la police est également appliquée ici */
+    }
+
+    /* Autres styles pour le tableau, titres, etc. */
+    h4, h6 {
+        font-family: 'HelveticaNeue', sans-serif;
+    }
+</style>
+<form method="POST">
+    {% csrf_token %}
+    <div class="mb-3">
+        <label for="username" class="form-label">Login</label>
+        <input type="text" class="form-control" name="username" id="username" placeholder="Enter username">
+    </div>
+
+    <div class="mb-3">
+        <div class="float-end">
+           
+        </div>
+        <label class="form-label">Password</label>
+        <div class="input-group auth-pass-inputgroup">
+            <input type="password" class="form-control" name="password" placeholder="Enter password" aria-label="Password" aria-describedby="password-addon">
+            <button class="btn btn-light " type="button" id="password-addon"><i class="mdi mdi-eye-outline"></i></button>
+        </div>
+    </div>
+
+    
+    
+    <div class="mt-3 d-grid">
+        <button class="btn btn-primary waves-effect waves-light" type="submit">Suivant</button>
+    </div>
+
+
+
+</form>
+
+{% endblock content %}

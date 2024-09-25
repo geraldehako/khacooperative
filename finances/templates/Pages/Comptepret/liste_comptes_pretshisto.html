@@ -1,0 +1,102 @@
+{% extends 'Base/base.html' %}
+
+{% block content %}
+<style>
+    /* Appliquer HelveticaNeue à l'ensemble du bloc de contenu */
+    body {
+        font-family: 'HelveticaNeue', sans-serif;
+    }
+
+    /* Style personnalisé pour les boutons */
+    .btn-custom {
+        background-color: #072C84;
+        color: white;
+        font-family: 'HelveticaNeue', sans-serif; /* Assurez-vous que la police est également appliquée ici */
+    }
+
+    /* Autres styles pour le tableau, titres, etc. */
+    h4, h6 {
+        font-family: 'HelveticaNeue', sans-serif;
+    }
+</style>
+<div class="row">
+    <div class="col-12">
+        <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+            <h4 class="mb-sm-0 font-size-18">KHA Coop</h4>
+
+            <div class="page-title-right">
+                <ol class="breadcrumb m-0">
+                    <li class="breadcrumb-item"><a href="{% url 'menu' %}">Accueil</a></li>
+                    <li class="breadcrumb-item active">Liste des comptes prets</li>
+                </ol>
+            </div> 
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+               
+                <div class="row">
+                    <div class="col-6 d-flex align-items-center">
+                        <h4 class="mb-sm-0 font-size-18">Liste des Comptes Prêts  Soldés</h4>
+                    </div>
+                    
+                </div><br><br>
+                    <table id="datatable-buttons" class="table table-bordered dt-responsive nowrap w-100">
+                        <thead class="table-light">
+                            <tr>
+                                <th>Numéro de Compte</th>
+                                <th>Client</th>
+                                <th>Solde</th>
+                                <th>Date de Début</th>
+                                <th>Date de Fin</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for compte in comptes_prets %}
+                            <tr>
+                                <td>{{ compte.numero_compte }}</td>
+                                <td>{{ compte.client }}</td>
+                                <td>{{ compte.solde }}</td>
+                                <td>{{ compte.date_debut_pret }}</td>
+                                <td>{{ compte.date_fin_pret }}</td>
+                                
+                                <td>
+                                    <div class="btn-group">
+                                        <button class="btn btn-secondary btn-sm" type="button">
+                                            Actions
+                                        </button>
+                                        <button type="button" class="btn btn-sm btn-secondary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
+                                            <iconify-icon icon="mdi:chevron-down-circle"></iconify-icon>
+                                        </button>
+                                        <div class="dropdown-menu">
+                                    <a class="dropdown-item" href="{% url 'detail_compte_pret' compte.id %}" >Détails</a>
+                                    {% if user.is_authenticated %}
+                                    {% if user.role == 'ADMINISTRATEURSUPER' %}
+                                    <a class="dropdown-item" href="{% url 'create_rachatpret' idpret=compte.id %}" >Rachat</a>
+                                    <a class="dropdown-item" href="{% url 'modifier_compte_pret' compte.id %}" >Modifier</a>
+                                    <a class="dropdown-item" href="{% url 'supprimer_compte_pret' compte.id %}" onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce compte prêt ?')">Supprimer</a>
+                                    {% endif %}
+                                    {% endif %}
+                                        </div>
+                                    </div>
+                                    
+                                </td>
+                            
+                            </tr>
+                            {% empty %}
+                            <tr>
+                                <td colspan="6">Aucune donnée disponible.</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    
+</div>
+{% endblock content %}

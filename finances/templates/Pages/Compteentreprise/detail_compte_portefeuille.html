@@ -1,0 +1,124 @@
+{% extends 'Base/base.html' %}
+
+{% block content %}
+<style>
+    /* Appliquer HelveticaNeue à l'ensemble du bloc de contenu */
+    body {
+        font-family: 'HelveticaNeue', sans-serif;
+    }
+
+    /* Style personnalisé pour les boutons */
+    .btn-custom {
+        background-color: #072C84;
+        color: white;
+        font-family: 'HelveticaNeue', sans-serif;
+        border: none;
+        padding: 10px 20px;
+        text-decoration: none;
+        border-radius: 5px;
+        transition: background-color 0.3s ease;
+    }
+
+    .btn-custom:hover {
+        background-color: #041c60;
+    }
+
+    /* Style pour les titres */
+    h4, h5, h6 {
+        font-family: 'HelveticaNeue', sans-serif;
+        color: #333;
+    }
+
+    /* Style du tableau */
+    .table {
+        width: 100%;
+        margin-bottom: 1rem;
+        color: #212529;
+    }
+
+    .table th,
+    .table td {
+        padding: 0.75rem;
+        vertical-align: top;
+        border-top: 1px solid #dee2e6;
+    }
+
+    .table thead th {
+        vertical-align: bottom;
+    }
+
+    .table tbody + tbody {
+        border-top: 2px solid #dee2e6;
+    }
+
+    .table .table {
+        background-color: #fff;
+    }
+
+    /* Styles pour les données */
+    .table th {
+        background-color: #f8f9fa;
+        color: #495057;
+    }
+
+    .table td {
+        background-color: #ffffff;
+    }
+
+    .table td.bold {
+        font-weight: bold;
+    }
+
+    .table td.blue {
+        color: rgb(0, 21, 255);
+    }
+
+    .table td.red {
+        color: red;
+    }
+</style>
+
+<div class="row">
+    <div class="col-12">
+        <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+            <h4 class="mb-sm-0 font-size-18">Détails du Compte Portefeuille encours de KHA Coop</h4>
+            <div class="page-title-right">
+                <a href="{% url 'courbe_transactions' %}" class="btn btn-custom">Retour à la liste</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-4">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title mb-4">Informations sur le Compte Portefeuille de KHA Coop</h5>
+                <table class="table table-bordered table-striped">
+                    <tbody>
+                        <tr>
+                            <th style="font-weight: bold; color: rgb(0, 21, 255);">Solde</th>
+                            <td class="bold blue" style="font-weight: bold; color: rgb(0, 21, 255);">{{ compte_pret.totalreste }} F CFA</td>
+                        </tr>
+                        <tr>
+                            <th></th>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <th>Total Entrée</th>
+                            <td style="font-weight: bold; color: green;">{{ compte_pret.totalentree }} F CFA</td>
+                        </tr>
+                        
+                        <tr>
+                            <th >Total Sortie</th>
+                            <td style="font-weight: bold; color: red;">{{ compte_pret.totalsortie }} F CFA</td>
+                        </tr>
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}

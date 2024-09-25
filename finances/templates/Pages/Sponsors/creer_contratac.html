@@ -1,0 +1,165 @@
+{% extends 'Base/base.html' %}
+
+{% block content %}
+    <!-- start page title -->
+    <style>
+        /* Appliquer HelveticaNeue à l'ensemble du bloc de contenu */
+        body {
+            font-family: 'HelveticaNeue', sans-serif;
+        }
+    
+        /* Style personnalisé pour les boutons */
+        .btn-custom {
+            background-color: #072C84;
+            color: white;
+            font-family: 'HelveticaNeue', sans-serif; /* Assurez-vous que la police est également appliquée ici */
+        }
+    
+        /* Autres styles pour le tableau, titres, etc. */
+        h4, h6 {
+            font-family: 'HelveticaNeue', sans-serif;
+        }
+    </style>
+    <div class="row">
+        <div class="col-12">
+            <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+                <h4 class="mb-sm-0 font-size-18">KHA Coop</h4>
+
+                <div class="page-title-right">
+                    <ol class="breadcrumb m-0">
+                        <li class="breadcrumb-item"><a href="{% url 'liste_sponsors' %}">Clients</a></li>
+                        <li class="breadcrumb-item active">Liste</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- end page title --> 
+    <div class="row">
+        <div class="col-xl-12">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title mb-4">Formulaire de validation</h4>
+
+                    <form method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-md-2" hidden>
+                                    <div class="mb-3">
+                                        <label for="formrow-client-input" class="form-label">Sponsor</label>
+                                        {{ form.sponsor }}
+                                    </div>
+                                </div>
+                                <div class="col-md-3" hidden>
+                                    <div class="mb-3">
+                                        <label for="formrow-taux-interet-input" class="form-label">Taux d'intérêt</label>
+                                        {{ form.taux_interet }}
+                                    </div>
+                                </div>
+                                <div class="col-md-4" hidden>
+                                    <div class="mb-3">
+                                        <label for="formrow-type-pret-input" class="form-label">Type de prêt</label>
+                                        {{ form.type_pret }}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-2">
+                                    <div class="mb-3">
+                                        <label for="formrow-type-client-input" class="form-label">Type de client</label>
+                                        {{ form.type_client }}
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="mb-3">
+                                        <label for="formrow-client-input" class="form-label">Client</label>
+                                        {{ form.client}}
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="mb-3">
+                                        <label for="formrow-duree-input" class="form-label">Commercial</label>
+                                        {{ form.com }}
+                                    </div>
+                                </div>
+                                <div class="col-md-1">
+                                    <div class="mb-3">
+                                        <label for="formrow-duree-input" class="form-label">Durée contrat</label>
+                                        {{ form.duree_contrat }}
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="mb-3">
+                                        <label for="formrow-date-debut-pret-input" class="form-label">Date de début du prêt</label>
+                                        {{ form.date_debut_pret }}
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="mb-3">
+                                        <label for="formrow-somme-initiale-input" class="form-label">Somme initiale</label>
+                                        {{ form.somme_initiale }}
+                                    </div>
+                                </div>
+                                <div class="col-md-1">
+                                    <div class="mb-3">
+                                        <label for="formrow-duree-input" class="form-label">Durée du prêt</label>
+                                        {{ form.duree_en_mois }}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="mb-3">
+                                        <label for="formrow-domicile-bancaire-input" class="form-label">Domicile bancaire</label>
+                                        {{ form.domicile_bancaire }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mt-4 hstack gap-2">
+                            <button type="submit" class="btn btn-soft-success w-100">Valider</button>
+                            <a class="btn btn-soft-primary w-100" href="{% url 'liste_sponsors' %}">Retour en Arrière</a>
+                        </div>
+                    </form>
+                </div>
+                <!-- end card body -->
+            </div>
+            <!-- end card -->
+        </div>
+    </div>
+    <!-- end col -->
+
+    <!-- JavaScript for dynamic field update -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('#formrow-client-input').on('change', function() {
+                var clientId = $(this).val();
+                if (clientId) {
+                    $.ajax({
+                        url: '{% url "get_client_name" %}',
+                        data: {
+                            'client_id': clientId
+                        },
+                        dataType: 'json',
+                        success: function(data) {
+                            if (data.nom) {
+                                $('#formrow-nom-input').val(data.nom);
+                            } else {
+                                $('#formrow-nom-input').val('');
+                            }
+                        },
+                        error: function(xhr, status, error) {
+                            console.error('Error fetching client name:', error);
+                            $('#formrow-nom-input').val('');
+                        }
+                    });
+                } else {
+                    $('#formrow-nom-input').val('');
+                }
+            });
+        });
+    </script>
+
+{% endblock content %}

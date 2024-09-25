@@ -1,0 +1,146 @@
+{% extends 'Base/base.html' %}
+
+{% block content %}
+<style>
+    /* Appliquer HelveticaNeue à l'ensemble du bloc de contenu */
+    body {
+        font-family: 'HelveticaNeue', sans-serif;
+    }
+
+    /* Style personnalisé pour les boutons */
+    .btn-custom {
+        background-color: #072C84;
+        color: white;
+        font-family: 'HelveticaNeue', sans-serif;
+        border: none;
+        padding: 10px 20px;
+        text-decoration: none;
+        border-radius: 5px;
+        transition: background-color 0.3s ease;
+    }
+
+    .btn-custom:hover {
+        background-color: #041c60;
+    }
+
+    /* Style pour les titres */
+    h4, h5, h6 {
+        font-family: 'HelveticaNeue', sans-serif;
+        color: #333;
+    }
+
+    /* Style du tableau */
+    .table {
+        width: 100%;
+        margin-bottom: 1rem;
+        color: #212529;
+    }
+
+    .table th,
+    .table td {
+        padding: 0.75rem;
+        vertical-align: top;
+        border-top: 1px solid #dee2e6;
+    }
+
+    .table thead th {
+        vertical-align: bottom;
+    }
+
+    .table tbody + tbody {
+        border-top: 2px solid #dee2e6;
+    }
+
+    .table .table {
+        background-color: #fff;
+    }
+
+    /* Styles pour les données */
+    .table th {
+        background-color: #f8f9fa;
+        color: #495057;
+    }
+
+    .table td {
+        background-color: #ffffff;
+    }
+
+    .table td.bold {
+        font-weight: bold;
+    }
+
+    .table td.blue {
+        color: rgb(0, 21, 255);
+    }
+
+    .table td.red {
+        color: red;
+    }
+</style>
+
+<div class="row">
+    <div class="col-12">
+        <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+            <h4 class="mb-sm-0 font-size-18">Détails du Compte principal de KHA Coop</h4>
+            <div class="page-title-right">
+                <a href="{% url 'courbe_transactions' %}" class="btn btn-custom">Retour à la liste</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-4">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title mb-4">Informations sur le Compte principal de KHA Coop</h5>
+                <table class="table table-bordered table-striped">
+                    <tbody>
+                        <tr>
+                            <th style="font-weight: bold; color: rgb(0, 21, 255);">Capital</th>
+                            <td class="bold blue" style="font-weight: bold; color: red;">{{ compte_pret.capital }} F CFA</td>
+                        </tr>
+                        <tr>
+                            <th>Date capital</th>
+                            <td>{{ compte_pret.datecapital }}</td>
+                        </tr>
+                        <tr>
+                            <th style="font-weight: bold; color: rgb(0, 21, 255);">Total Entrée</th>
+                            <td class="bold red" style="font-weight: bold; color: red;">{{ compte_pret.totalentree }} F CFA</td>
+                        </tr>
+                        <tr>
+                            <th>Date total entrée</th>
+                            <td>{{ compte_pret.dateentree }}</td>
+                        </tr>
+                        <tr>
+                            <th style="font-weight: bold; color: rgb(0, 21, 255);">Total Sortie</th>
+                            <td class="bold red">{{ compte_pret.totalsortie }} F CFA</td>
+                        </tr>
+                        <tr>
+                            <th>Date total sortie</th>
+                            <td>{{ compte_pret.datesortie }}</td>
+                        </tr>
+                        <tr>
+                            <th style="font-weight: bold; color: rgb(0, 21, 255);">Total Dépense</th>
+                            <td class="bold red" style="font-weight: bold; color: red;">{{ compte_pret.totaldepense }} F CFA</td>
+                        </tr>
+                        <tr>
+                            <th>Date total dépense</th>
+                            <td>{{ compte_pret.datedepense }}</td>
+                        </tr>
+                        <tr>
+                            <th style="font-weight: bold; color: rgb(0, 21, 255);">Total Gain généré (Epargne + Intéret + Adhésion + Pénalité)</th>
+                            <td class="bold red" style="font-weight: bold; color: red;">{{ compte_pret.totalgain }} F CFA</td>
+                        </tr>
+                        <tr>
+                            <th>Date total gain</th>
+                            <td>{{ compte_pret.dategain }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}

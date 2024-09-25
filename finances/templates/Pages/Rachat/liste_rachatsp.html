@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <h2>Liste des Rachats</h2>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Client</th>
+                <th>Date de Rachat</th>
+                <th>Compte Prêt Actuel</th> 
+                <th>Montant Actuel</th>
+                <th>Reste Actuel</th>
+                <th>Nouveau Compte Prêt</th>
+                <th>Montant Nouveau</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for rachat in rachats %}
+            <tr>
+                <td>{{ rachat.id }}</td>
+                <td>{{ rachat.client.nom }} {{ rachat.client.prenom }}</td>
+                <td>{{ rachat.date_rachat|date:"d/m/Y H:i" }}</td>
+                <td>{{ rachat.compte_pretactuel.numero_compte }}</td>
+                <td>{{ rachat.montant_actuel }}</td>
+                <td>{{ rachat.reste_actuel }}</td>
+                <td>{{ rachat.compte_pretnew }}</td>
+                <td>{{ rachat.montant_new }}</td>
+                <td>
+                    <div class="btn-group"> 
+                        <button class="btn btn-secondary btn-sm" type="button">
+                            Actions
+                        </button>
+                        <button type="button" class="btn btn-sm btn-secondary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
+                            <iconify-icon icon="mdi:chevron-down-circle"></iconify-icon>
+                        </button>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" href="{% url 'update_rachat' rachat.pk %}">Modifier</a>
+                            <a class="dropdown-item" href="{% url 'delete_rachat' rachat.pk %}">Supprimer</a>
+                        </div>
+                    </div>
+            
+                </td> 
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="8">Aucun rachat trouvé.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock content %}

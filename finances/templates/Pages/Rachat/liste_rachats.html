@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>Liste des rachats</h2>
+<table>
+    <thead>
+        <tr>
+            <th>Client</th>
+            <th>Date de Rachat</th>
+            <th>Compte Prêt Actuel</th>
+            <th>Montant Actuel</th>
+            <th>Reste Actuel</th>
+            <th>Compte Prêt Nouveau</th>
+            <th>Montant Nouveau</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for rachat in rachats %}
+        <tr>
+            <td>{{ rachat.client }} {{ rachat.client.nom }} {{ rachat.client.prenom }}</td>
+            <td>{{ rachat.date_rachat }}</td>
+            <td>{{ rachat.compte_pretactuel }}</td>
+            <td>{{ rachat.montant_actuel }}</td>
+            <td>{{ rachat.reste_actuel }}</td>
+            <td>{{ rachat.compte_pretnew }}</td>
+            <td>{{ rachat.montant_new }}</td> 
+            <td>
+                <a href="{% url 'update_rachat' rachat.pk %}">Modifier</a>
+                <a href="{% url 'delete_rachat' rachat.pk %}">Supprimer</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

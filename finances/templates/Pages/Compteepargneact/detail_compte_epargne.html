@@ -1,0 +1,40 @@
+{% extends 'Base/base.html' %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+            <h4 class="mb-sm-0 font-size-18">Détails du Compte d'Épargne</h4>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Informations du Compte d'Épargne</h5>
+                <table class="table table-bordered table-striped">
+                    <tbody>
+                        <tr>
+                            <th scope="row">Numéro de Compte</th>
+                            <td>{{ compte_epargne.numero_compte }}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Solde</th>
+                            <td>{{ compte_epargne.solde }} F</td>
+                        </tr>
+                        
+                        
+                        <!-- Ajouter d'autres informations spécifiques à votre modèle CompteEpargnes si nécessaire -->
+                    </tbody>
+                </table>
+                <div class="mt-4 hstack gap-2">
+                    <a class="btn btn-soft-primary w-100" href="{% url 'liste_comptes_epargnes' %}">Retour en Arrière</a>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+</div>
+{% endblock content %}

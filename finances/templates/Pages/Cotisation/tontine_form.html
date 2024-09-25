@@ -1,0 +1,89 @@
+{% extends 'Base/base.html' %}
+
+{% block content %}
+<style>
+    /* Appliquer HelveticaNeue à l'ensemble du bloc de contenu */
+    body {
+        font-family: 'HelveticaNeue', sans-serif;
+    }
+
+    /* Style personnalisé pour les boutons */
+    .btn-custom {
+        background-color: #072C84;
+        color: white;
+        font-family: 'HelveticaNeue', sans-serif; /* Assurez-vous que la police est également appliquée ici */
+    }
+
+    /* Autres styles pour le tableau, titres, etc. */
+    h4, h6 {
+        font-family: 'HelveticaNeue', sans-serif;
+    }
+</style>
+    <!-- start page title -->
+    <div class="row">
+        <div class="col-12">
+            <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+                <h4 class="mb-sm-0 font-size-18">KHA coop</h4>
+
+                <div class="page-title-right">
+                    <ol class="breadcrumb m-0">
+                        <li class="breadcrumb-item"><a href="{% url 'liste_clients' %}">Clients</a></li>
+                        <li class="breadcrumb-item active">Liste</li>
+                    </ol>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <!-- end page title --> 
+    <div class="row">
+        <div class="col-xl-12">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title mb-4">Formulaire de validation</h4>
+                    <h1>{{ action }} une Tontine</h1> 
+                    <form method="post">
+                        {% csrf_token %}
+                        <div class="row">
+                            <!-- MAJ JANV --> 
+                            <div class="col-md-5">
+                                <div class="mb-3">
+                                    <label for="formrow-email-input" class="form-label">Type client</label>
+                                    {{ form.type_tontine }}
+                                </div> 
+                            </div>
+                            <div class="col-md-5">
+                                <div class="mb-3">
+                                    <label for="formrow-email-input" class="form-label">Commercial</label>
+                                    {{ form.com }}
+                                </div> 
+                            </div>
+                            <div class="col-md-2">
+                                <div class="mb-3">
+                                    <label for="id_somme_initiale" class="form-label">Versement Initiale</label>
+                                    {{ form.montant_min }}
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="col-md-2" hidden>
+                                <div class="mb-3">
+                                    <label for="id_somme_initiale" class="form-label">Versement Initiale</label>
+                                    {{ form.client }}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mt-4 hstack gap-2">
+                            <button id="submitBtn" type="submit" class="btn btn-soft-success w-100" >{{ action }}</button>
+
+                            <a class="btn btn-soft-primary w-100" href="{% url 'tontine_list' %}">Retour en Arrière</a>
+                        </div>
+                    </form>
+                </div>
+                <!-- end card body -->
+            </div>
+            <!-- end card -->
+        </div>
+    </div>
+    <!-- end col -->
+{% endblock content %}

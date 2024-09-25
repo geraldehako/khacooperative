@@ -1,0 +1,100 @@
+{% extends 'Base/base.html' %}
+
+{% block content %}
+<style>
+    /* Appliquer HelveticaNeue à l'ensemble du bloc de contenu */
+    body {
+        font-family: 'HelveticaNeue', sans-serif;
+    }
+
+    /* Style personnalisé pour les boutons */
+    .btn-custom {
+        background-color: #072C84;
+        color: white;
+        font-family: 'HelveticaNeue', sans-serif; /* Assurez-vous que la police est également appliquée ici */
+    }
+
+    /* Autres styles pour le tableau, titres, etc. */
+    h4, h6 {
+        font-family: 'HelveticaNeue', sans-serif;
+    }
+</style>
+<div class="row">
+    <div class="col-12">
+        <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+            <h4 class="mb-sm-0 font-size-18">Détails du Compte Prêt Client</h4>
+            <div class="page-title-right">
+                <a href="{% url 'liste_comptes_prets' %}" class="btn btn-custom">Retour à la liste</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Informations sur le Compte Prêt Client</h5>
+                <table class="table table-bordered table-striped">
+                    <tbody>
+                        <tr>
+                            <th>Numéro de Compte</th>
+                            <td>{{ compte_pret.numero_compte }}</td>
+                        </tr>
+                        <tr>
+                            <th>Client</th>
+                            <td>{{ compte_pret.client }}</td>
+                        </tr>
+                        <tr>
+                            <th>Solde</th>
+                            <td>{{ compte_pret.solde }}</td>
+                        </tr>
+                        <tr>
+                            <th>Date de Début</th>
+                            <td>{{ compte_pret.date_debut_pret }}</td>
+                        </tr>
+                        <tr>
+                            <th>Date de Fin</th>
+                            <td>{{ compte_pret.date_fin_pret }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Échéanciers associés</h5>
+                <table class="table table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <th>Date d'Échéance</th>
+                            <th>Montant de l'Échéance</th>
+                            <th>Est Payé</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for echeancier in echeanciers %}
+                        <tr>
+                            <td>{{ echeancier.date_echeance }}</td>
+                            <td>{{ echeancier.montant_echeance }}</td>
+                            <td>
+                                {% if echeancier.est_paye %}
+                                    <span style="color: green;">Oui</span>
+                                {% else %}
+                                    <span style="color: red;">Non</span>
+                                {% endif %}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}

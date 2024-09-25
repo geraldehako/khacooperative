@@ -1,0 +1,57 @@
+{% extends 'Base/base.html' %}
+
+{% block content %}
+<!-- start page title -->
+<div class="row">
+    <div class="col-12">
+        <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+            <h4 class="mb-sm-0 font-size-18">KHAGest</h4>
+
+            <div class="page-title-right">
+                <ol class="breadcrumb m-0">
+                    <li class="breadcrumb-item"><a href="{% url 'liste_depenses' %}">Dépenses</a></li>
+                    <li class="breadcrumb-item active">Ajouter une dépense</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</div> 
+<!-- end page title -->
+
+<div class="row">
+    <div class="col-lg-12"> 
+        <div class="card">
+            <div class="card-body">
+                
+                <h4 class="card-title mb-4">Formulaire d'Ajout de dépense </h4>
+                
+<form method="post">
+    {% csrf_token %}
+    
+    <div class="row">
+        <div class="col-md-10">
+            <div class="mb-3">
+                <label for="id_somme_initiale" class="form-label">Libéle dépense</label>
+                {{ form.nom }}
+            </div>
+        </div>
+        
+        
+        <div class="col-md-2">
+            <div class="mb-3">
+                <label for="formrow-email-input" class="form-label">Montant</label>
+                {{ form.montant }}
+            </div>
+        </div>
+    </div>
+    <div class="mt-4 hstack gap-2">
+        <button type="submit" class="btn btn-soft-success w-100" >Valider</button>
+        <a class="btn btn-soft-primary w-100" href="{% url 'liste_depenses' %}">Retour en Arrière</a>
+    </div>
+</form>
+
+</div>
+</div>
+</div>
+</div>
+{% endblock %}

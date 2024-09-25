@@ -1,0 +1,43 @@
+{% extends 'Base/base.html' %}
+
+{% block content %}
+    <!-- start page title -->
+    <div class="row">
+        <div class="col-12">
+            <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+                <h4 class="mb-sm-0 font-size-18">KHAGest</h4>
+
+                <div class="page-title-right">
+                    <ol class="breadcrumb m-0">
+                        <li class="breadcrumb-item"><a href="{% url 'menu' %}">Institutions</a></li>
+                        <li class="breadcrumb-item"><a href="{% url 'liste_comptes_epargnes' %}">Liste des comptes épargnes</a></li>
+                        <li class="breadcrumb-item active">Supprimer un compte épargne</li>
+                    </ol>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <!-- end page title -->
+
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title">Supprimer le Compte Épargne</h4>
+                    <p class="card-title-desc">Êtes-vous sûr de vouloir supprimer ce compte épargne ?</p>
+
+                    <p><strong>Compte:</strong> {{ compte_epargne.numero_compte }}</p> 
+                    <p><strong>Solde:</strong> {{ compte_epargne.solde }}</p>
+                    <form method="post">
+                        {% csrf_token %}
+                        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                            <a href="{% url 'liste_comptes_epargnes' %}" class="btn btn-secondary me-md-2">Annuler</a>
+                            <button type="submit" class="btn btn-danger">Supprimer</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock content %}
