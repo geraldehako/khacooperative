@@ -1,0 +1,5 @@
+<!-- Exemple de modèle affichant la liste des transactions -->
+{% for transaction in transactions %}
+    <p>{{ transaction }}</p>
+    <a href="{% url 'supprimer_transaction' transaction.pk %}">Supprimer</a>
+{% endfor %}

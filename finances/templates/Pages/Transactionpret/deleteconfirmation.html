@@ -1,0 +1,15 @@
+<!-- nom_de_la_page_de_confirmation.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Confirmation de suppression</title>
+</head>
+<body>
+    <h1>Êtes-vous sûr de vouloir supprimer cette transaction ?</h1>
+    <p>Transaction : {{ transaction }}</p>
+    <form method="post">
+        {% csrf_token %}
+        <input type="submit" value="Confirmer la suppression">
+    </form>
+</body>
+</html>

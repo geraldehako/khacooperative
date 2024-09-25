@@ -1,0 +1,58 @@
+{% extends 'Base/base.html' %}
+
+{% block content %}
+    <!-- start page title -->
+    <div class="row">
+        <div class="col-12">
+            <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+                <h4 class="mb-sm-0 font-size-18">IBACySCHOOL</h4>
+
+                <div class="page-title-right">
+                    <ol class="breadcrumb m-0">
+                        <li class="breadcrumb-item"><a href="">Transactions</a></li>
+                        <li class="breadcrumb-item active">Créer une Transaction</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- end page title -->
+
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title mb-4">Formulaire de Création de Transaction</h4>
+
+                    <form method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <label for="{{ transaction_form.montant.id_for_label }}">Montant :</label>
+                            {{ transaction_form.montant }}
+                        </div>
+                        <div class="form-group">
+                            <label for="{{ transaction_form.type_transaction.id_for_label }}">Type de transaction :</label>
+                            {{ transaction_form.type_transaction }}
+                        </div>
+                        <div class="form-group" hidden>
+                            <label for="{{ transaction_form.date_transaction.id_for_label }}">Date de transaction :</label>
+                            {{ transaction_form.date_transaction }}
+                        </div>
+                        <div class="form-group" hidden>
+                            <label for="{{ transaction_form.compte_epargne.id_for_label }}">Compte épargne :</label>
+                            {{ transaction_form.compte_epargne }}
+                        </div>
+                        <div class="form-group" hidden>
+                            <label for="{{ transaction_form.agent.id_for_label }}">Agent :</label>
+                            {{ transaction_form.agent }}
+                        </div>
+                        <div class="mt-4">
+                            <button type="submit" class="btn btn-soft-success">Valider</button>
+                            <a class="btn btn-soft-primary" href="">Retour en Arrière</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock content %}

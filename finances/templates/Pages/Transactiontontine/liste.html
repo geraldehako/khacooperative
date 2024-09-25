@@ -1,0 +1,35 @@
+{% extends 'Base/base.html' %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+            <h4 class="mb-sm-0 font-size-18">KHAGest</h4>
+
+            <div class="page-title-right">
+                <ol class="breadcrumb m-0">
+                    <li class="breadcrumb-item"><a href="{% url 'transaction_tontine_list' %}">Accueil</a></li>
+                    <li class="breadcrumb-item active">Transaction Tontine Detail</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <h1>Transaction Tontine Detail</h1>
+                <p>Tontine: {{ transaction.tontine }}</p>
+                <p>Montant: {{ transaction.montant }}</p>
+                <p>Type de transaction: {{ transaction.type_transaction }}</p>
+                <p>Date de transaction: {{ transaction.date_transaction }}</p>
+                <p>Agent: {{ transaction.agent }}</p>
+                <a href="{% url 'transaction_tontine_update' transaction.id %}">Edit</a>
+                <a href="{% url 'transaction_tontine_list' %}">Back to list</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}
