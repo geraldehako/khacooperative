@@ -1,0 +1,187 @@
+{% extends 'Base/base.html' %}
+
+{% block content %}
+    <!-- start page title -->
+    <div class="row">
+        <div class="col-12">
+            <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+                <h4 class="mb-sm-0 font-size-18">IBACySCHOOL</h4>
+
+                <div class="page-title-right">
+                    <ol class="breadcrumb m-0">
+                        <li class="breadcrumb-item"><a href="{% url 'liste_clients' %}">Personnels</a></li>
+                        <li class="breadcrumb-item active">Liste</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- end page title -->
+
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="vertical-nav">
+                <div class="row">
+                    <div class="col-lg-2 col-sm-4">
+                        <div class="nav flex-column nav-pills" role="tablist">
+                            <a class="nav-link active" id="v-pills-gen-ques-tab" data-bs-toggle="pill" href="#v-pills-gen-ques" role="tab">
+                                <i class="bx bx-help-circle nav-icon d-block mb-2"></i>
+                                <p class="fw-bold mb-0">General Questions</p>
+                            </a>
+                            <a class="nav-link" id="v-pills-token-sale-tab" data-bs-toggle="pill" href="#v-pills-token-sale" role="tab"> 
+                                <i class="bx bx-receipt nav-icon d-block mb-2"></i>
+                                <p class="fw-bold mb-0">Token sale</p>
+                            </a>
+                            <a class="nav-link" id="v-pills-roadmap-tab" data-bs-toggle="pill" href="#v-pills-roadmap" role="tab">
+                                <i class="bx bx-timer d-block nav-icon mb-2"></i>
+                                <p class="fw-bold mb-0">Roadmap</p>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-lg-10 col-sm-8">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="tab-content">
+                                    <form method="post" enctype="multipart/form-data">
+                                        {% csrf_token %}
+                                        <div class="form-group">
+                                            <div class="tab-pane fade show active" id="v-pills-gen-ques" role="tabpanel">
+                                                <h4 class="card-title mb-4">General Questions</h4>
+                                                <div class="row">
+                                                    <div class="col-md-2">
+                                                        <div class="mb-3">
+                                                            <label for="formrow-password-input" class="form-label">Nom</label>
+                                                            {{ form.nom }}
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <div class="mb-3">
+                                                            <label for="formrow-email-input" class="form-label">Prénoms</label>
+                                                            {{ form.prenom }}
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                        <div class="mb-3">
+                                                            <label for="formrow-password-input" class="form-label">Genre</label>
+                                                            {{ form.sexe }}
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                        <div class="mb-3">
+                                                            <label for="formrow-password-input" class="form-label">Matrimoniale</label>
+                                                            {{ form.matrimoniale }}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-2">
+                                                        <div class="mb-3">
+                                                            <label for="formrow-email-input" class="form-label">Téléphone</label>
+                                                            {{ form.telephone }}
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-5">
+                                                        <div class="mb-3">
+                                                            <label for="formrow-password-input" class="form-label">Prénoms</label>
+                                                            {{ form.adresse }}
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <div class="mb-3">
+                                                            <label for="formrow-email-input" class="form-label">Email</label>
+                                                            {{ form.email }}
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <div class="mb-3">
+                                                            <label for="resume" class="form-label">Photo</label>
+                                                            {{ form.photo }}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="tab-pane fade" id="v-pills-token-sale" role="tabpanel">
+                                                <h4 class="card-title mb-4">Token sale</h4>
+                                                <div class="row">
+                                                    <div class="col-md-3">
+                                                        <div class="mb-3">
+                                                            <label for="formrow-email-input" class="form-label">Pièce d'identité</label>
+                                                            {{ form.piece_identite_scan }}
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <div class="mb-3">
+                                                            <label for="formrow-password-input" class="form-label">Profession</label>
+                                                            {{ form.profession }}
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <div class="mb-3">
+                                                            <label for="formrow-password-input" class="form-label">Date de naissance</label>
+                                                            {{ form.date_naissance }}
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                        <div class="mb-3">
+                                                            <label for="formrow-password-input" class="form-label">Lieu de naissance</label>
+                                                            {{ form.lieu_naissance }}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-2">
+                                                        <div class="mb-3">
+                                                            <label for="formrow-password-input" class="form-label">Type de pièce d'identité</label>
+                                                            {{ form.type_piece_identite }}
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                        <div class="mb-3">
+                                                            <label for="formrow-password-input" class="form-label">Numéro de pièce d'identité</label>
+                                                            {{ form.numero_piece_identite }}
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                        <div class="mb-3">
+                                                            <label for="formrow-password-input" class="form-label">Validité début</label>
+                                                            {{ form.validite_piece_identite_debut }}
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                        <div class="mb-3">
+                                                            <label for="formrow-password-input" class="form-label">Validité fin</label>
+                                                            {{ form.validite_piece_identite_fin }}
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                        <div class="mb-3">
+                                                            <label for="formrow-password-input" class="form-label">Ville/Village</label>
+                                                            {{ form.ville_village }}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="tab-pane fade" id="v-pills-roadmap" role="tabpanel">
+                                                <h4 class="card-title mb-4">Roadmap</h4>
+                                                <!-- Ajoutez ici le contenu de l'onglet "Roadmap" si nécessaire -->
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- end vertical nav -->
+        </div>
+    </div>
+    <!-- end row -->
+
+    <div class="mt-4 hstack gap-2">
+        <button type="submit" class="btn btn-soft-success w-100">Valider</button>
+        <a class="btn btn-soft-primary w-100" href="{% url 'liste_clients' %}">Retour en Arrière</a>
+    </div>
+</form>
+{% endblock content %}

@@ -1,0 +1,156 @@
+{% extends 'Base/base.html' %}
+
+{% block content %}
+{% load static %}
+<style>
+    /* Appliquer HelveticaNeue à l'ensemble du bloc de contenu */
+    body {
+        font-family: 'HelveticaNeue', sans-serif;
+    }
+
+    /* Style personnalisé pour les boutons */
+    .btn-custom {
+        background-color: #072C84;
+        color: white;
+        font-family: 'HelveticaNeue', sans-serif; /* Assurez-vous que la police est également appliquée ici */
+    }
+
+    /* Autres styles pour le tableau, titres, etc. */
+    h4, h6 {
+        font-family: 'HelveticaNeue', sans-serif;
+    }
+</style>
+<div class="row">
+    <div class="col-12">
+        <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+            <h4 class="mb-sm-0 font-size-18">Détails des Comptes</h4>
+            <div class="page-title-right">
+                <a href="{% url 'liste_clientsa' %}" class="btn btn-primary">Retour à la liste</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title mb-0">LISTES DES AIDES et DE LA TONTINE</h4>
+
+                <div class="row">
+                    <div class="col-xl-12">
+                        <div class="mt-4">
+                            <h5 class="font-size-14">Cliquez</h5>
+                            <p class="card-title-desc">Aides/Tontine</p>
+
+                            <div class="accordion" id="accordionExample">
+                                <div class="accordion-item">
+                                    <h2 class="accordion-header" id="headingOne">
+                                        <button class="accordion-button fw-medium" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                        AIDES
+                                        </button>
+                                    </h2>
+                                    <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                                        <div class="accordion-body">
+                                            <div class="text-muted">
+                                                <table class="table table-bordered table-striped">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Date d'obtention de l'aide</th>
+                                                            <th>Solde</th>
+                                                            <th>Statut</th>
+                                                            <th>Tâches</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        {% for comptes_epargne in comptes_epargnes %}
+                                                        <tr>
+                                                            <td>{{ comptes_epargne.date_aide }}</td>
+                                                            <td>{{ comptes_epargne.montant_aide }}</td>
+                                                            <td style="width: 70px;">
+                                                                {% if comptes_epargne.statut == 'Non Actif' %} 
+                                                                    <span class="badge badge-pill badge-soft-danger" style="font-size: 12px;">{{ comptes_epargne.statut }}</span>
+                                                                {% elif comptes_epargne.statut == 'Actif' %}
+                                                                    <span class="badge badge-pill badge-soft-success" style="font-size: 12px;">{{ comptes_epargne.statut }}</span>
+                                                                {% else %}
+                                                                    {{ comptes_epargne.statut }}
+                                                                {% endif %}
+                                                            </td>
+                                                            <td>
+                                                                <div class="btn-group">
+                                                                    <button class="btn btn-secondary btn-sm" type="button">
+                                                                        Actions
+                                                                    </button>
+                                                                    <button type="button" class="btn btn-sm btn-secondary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
+                                                                        <iconify-icon icon="mdi:chevron-down-circle"></iconify-icon>
+                                                                    </button>
+                                                                    <div class="dropdown-menu">
+                                                                        <a class="dropdown-item" href="{% url 'creer_transaction_epargne' id=comptes_epargne.id idd=comptes_epargne.client.id %}">Transactions</a>
+                                                                    </div>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                        {% endfor %}
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="accordion-item">
+                                    <h2 class="accordion-header" id="headingTwo">
+                                        <button class="accordion-button fw-medium collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                        TONTINE
+                                        </button>
+                                    </h2>
+                                    <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
+                                        <div class="accordion-body">
+                                            <div class="text-muted">
+                                                <table class="table table-bordered table-striped">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>N° compte</th>
+                                                            <th>Date adhésion</th>
+                                                            <th>Solde</th>
+                                                            <th>Quotité</th>
+                                                            <th>Nombre aide</th>
+                                                            <th>Pénalité en Jours</th>
+                                                            <th>Date palier</th>
+                                                            <th>Durée</th>
+                                                            <th>Périodicité</th>
+                                                            <th>Date Future échéance</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        {% for comptes_pret in comptes_prets %}
+                                                        <tr>
+                                                            <td>{{ comptes_pret.numero_tontine }}</td>
+                                                            <td>{{ comptes_pret.date_tontine }}</td>
+                                                            <td>{{ comptes_pret.solde }}</td>
+                                                            <td>{{ comptes_pret.cotite }}</td>
+                                                            <td>{{ comptes_pret.nbreaide }}</td>
+                                                            <td>{{ comptes_pret.penaliteton }}</td>
+                                                            <td>{{ comptes_pret.date_palier }}</td>
+                                                            <td>{{ comptes_pret.duree }}</td>
+                                                            <td>{{ comptes_pret.type_tontine }}</td>
+                                                            <td>{{ comptes_pret.date_futurcotisation }}</td>
+                                                        </tr>
+                                                        {% endfor %}
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                            </div>
+                            <!-- end accordion -->
+                        </div>
+                    </div>
+                    <!-- end col -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}

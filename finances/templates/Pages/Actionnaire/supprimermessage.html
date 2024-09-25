@@ -1,0 +1,63 @@
+{% extends 'Base/base.html' %}
+
+{% block content %}
+    <!-- start page title -->
+    <style>
+        /* Appliquer HelveticaNeue à l'ensemble du bloc de contenu */
+        body {
+            font-family: 'HelveticaNeue', sans-serif;
+        }
+    
+        /* Style personnalisé pour les boutons */
+        .btn-custom {
+            background-color: #072C84;
+            color: white;
+            font-family: 'HelveticaNeue', sans-serif; /* Assurez-vous que la police est également appliquée ici */
+        }
+    
+        /* Autres styles pour le tableau, titres, etc. */
+        h4, h6 {
+            font-family: 'HelveticaNeue', sans-serif;
+        }
+    </style>
+    <div class="row">
+        <div class="col-12">
+            <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+                <h4 class="mb-sm-0 font-size-18">KHAGest</h4>
+
+                <div class="page-title-right">
+                    <ol class="breadcrumb m-0">
+                        <li class="breadcrumb-item"><a href="{% url 'courbe_transactions' %}">Tableau de bord</a></li>
+                        <li class="breadcrumb-item"><a href="{% url 'listemessages' %}">Liste des messages</a></li>
+                        <li class="breadcrumb-item active">Supprimer un message</li>
+                    </ol>
+                </div>
+
+            </div>
+        </div>
+    </div> 
+    <!-- end page title -->
+
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title">Supprimer un message</h4>
+                    <p class="card-title-desc">Êtes-vous sûr de vouloir supprimer ce message ?</p>
+
+                    <p><strong>Titre:</strong> {{ agent.titre }}</p> 
+                    <p><strong>Message:</strong> {{ agent.message }}</p>
+                    <p><strong>Date</strong> {{ agent.date_msg }}</p>
+                    
+                    <form method="post">
+                        {% csrf_token %}
+                        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                            <a href="{% url 'listemessages' %}" class="btn btn-secondary me-md-2">Annuler</a>
+                            <button type="submit" class="btn btn-danger">Supprimer</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock content %}

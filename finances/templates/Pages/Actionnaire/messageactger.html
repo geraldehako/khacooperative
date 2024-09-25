@@ -1,0 +1,54 @@
+<!-- liste_actionnaires.html -->
+{% extends 'Base/baseact.html' %}
+
+{% block content %}
+<style>
+    /* Appliquer HelveticaNeue à l'ensemble du bloc de contenu */
+    body {
+        font-family: 'HelveticaNeue', sans-serif;
+    }
+
+    /* Style personnalisé pour les boutons */
+    .btn-custom {
+        background-color: #072C84;
+        color: white;
+        font-family: 'HelveticaNeue', sans-serif; /* Assurez-vous que la police est également appliquée ici */
+    }
+
+    /* Autres styles pour le tableau, titres, etc. */
+    h4, h6 {
+        font-family: 'HelveticaNeue', sans-serif;
+    }
+</style>
+<div class="card">
+    <div class="card-body">
+        <h4 class="card-title mb-4">Contactez nous!</h4>
+        <form class="outer-repeater"  method="post">
+            {% csrf_token %}
+            <div data-repeater-list="outer-group" class="outer">
+                <div data-repeater-item class="outer">
+                    <div class="form-group row mb-4">
+                        <label for="taskname" class="col-form-label col-lg-2">Titre</label>
+                        <div class="col-lg-10">
+                            {{ form.titre }}
+                        </div>
+                    </div>
+                    <div class="form-group row mb-4">
+                        <label class="col-form-label col-lg-2">Mess</label>
+                        <div class="col-lg-10">
+                            
+                            {{ form.message }}
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+            <div class="row justify-content-end">
+                <div class="col-lg-10">
+                    <button type="submit" class="btn btn-primary">Envoyer</button>
+                </div>
+            </div>
+        </form> 
+    </div>
+</div>
+{% endblock content %}

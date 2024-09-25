@@ -1,0 +1,424 @@
+{% extends 'Base/baseact.html' %}
+
+{% block content %}
+<style>
+    /* Appliquer HelveticaNeue à l'ensemble du bloc de contenu */
+    body {
+        font-family: 'HelveticaNeue', sans-serif;
+    }
+
+    /* Style personnalisé pour les boutons */
+    .btn-custom {
+        background-color: #072C84;
+        color: white;
+        font-family: 'HelveticaNeue', sans-serif; /* Assurez-vous que la police est également appliquée ici */
+    }
+
+    /* Autres styles pour le tableau, titres, etc. */
+    h4, h6 {
+        font-family: 'HelveticaNeue', sans-serif;
+    }
+</style>
+<!-- start page title -->
+<div class="row">
+    <div class="col-12">
+        <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+            <h4 class="mb-sm-0 font-size-18">OUTIL DE PILOTAGE</h4>
+
+            <div class="page-title-right">
+                <ol class="breadcrumb m-0">
+                    <li class="breadcrumb-item"><a href="javascript: void(0);">Performance</a></li>
+
+                    <li class="breadcrumb-item"><a href="{% url 'ajouter_compte_pretact' %}" class="btn btn-danger">Demande de prêt</a></li>
+                    <li class="breadcrumb-item active">Tableau de bord</li>
+                </ol>
+            </div>
+
+        </div>
+    </div>
+</div>
+<!-- end page title -->
+
+<div class="row">
+    <div class="col-xl-4">
+
+        <div class="card">
+            <div class="card-body">
+                <!-- Affichage du donut des montants de transactions par type -->
+                <div id="donut-montants" style="height: 400px; width: 400px;"></div>
+
+                <!-- Script pour créer le graphique -->
+                <script>
+                    // Récupérer les données des montants de transactions depuis le contexte Django
+                    var depotAmount = {{ depot_amount }};
+                    var retraitAmount = {{ retrait_amount }};
+                    var virementAmount = {{ virement_amount }};
+
+                    // Créer le graphique en forme de donut
+                    var data = [{
+                        values: [depotAmount, retraitAmount, virementAmount],
+                        labels: ['Dépôt', 'Retrait', 'Virement'],
+                        type: 'pie',
+                        marker: {
+                            colors: ['#0a0763', '#9291a3', '#0a0a12'] // Remplacez ces couleurs par celles de votre choix
+                        },
+                        hole: 0.4
+                    }];
+
+                    var layout = {
+
+                        title: {
+                            text: 'Répartion des montants/transactions',
+                            fontSize: 7, // Ajustez la taille de la police ici
+                                },
+                        height: 400,
+                        width: 400
+                    };
+
+                    Plotly.newPlot('donut-montants', data, layout);
+                </script>
+
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-8">
+        <div class="row">
+            <div class="col-md-4">
+                <div class="card mini-stats-wid">
+                    <div class="card-body">
+                        <div class="d-flex">
+                            <div class="flex-grow-1">
+                                <p class="text-muted fw-medium">Bénéfice du mois</p>
+                                <h4 class="mb-0">{{ benefice_mois }} FCFA</h4>
+                            </div>
+
+                            <div class="flex-shrink-0 align-self-center">
+                                <div class="mini-stat-icon avatar-sm rounded-circle bg-primary">
+                                    <span class="avatar-title">
+                                        <iconify-icon icon="bx:arch" width="50" height="50"></iconify-icon>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card mini-stats-wid">
+                    <div class="card-body">
+                        <div class="d-flex">
+                            <div class="flex-grow-1">
+                                <p class="text-muted fw-medium">Dépenses du mois</p>
+                                <h4 class="mb-0">{{ depenses_mois }} FCFA</h4>
+                            </div>
+
+                            <div class="flex-shrink-0 align-self-center">
+                                <div class="avatar-sm rounded-circle bg-primary mini-stat-icon">
+                                    <span class="avatar-title rounded-circle bg-primary">
+                                        <iconify-icon icon="bx:basket" width="50" height="50"></iconify-icon>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card mini-stats-wid">
+                    <div class="card-body">
+                        <div class="d-flex">
+                            <div class="flex-grow-1">
+                                <p class="text-muted fw-medium">Montant à répartir du mois</p>
+                                <span class="text-success me-2"><h4 class="mb-0">{{ montant_a_repartir }} FCFA</h4></span>
+                            </div>
+
+                            <div class="flex-shrink-0 align-self-center">
+                                <div class="avatar-sm rounded-circle bg-primary mini-stat-icon">
+                                    <span class="avatar-title rounded-circle bg-primary">
+                                        <iconify-icon icon="bx:money" width="50" height="50"></iconify-icon>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- end row -->
+
+        <div class="card">
+            <div class="card-body">
+                <div class="d-sm-flex flex-wrap">
+                    <h4 class="card-title mb-4">PRÉVISION SANS LES DÉPENSES</h4>
+
+                </div>
+
+                <div class="card-body">
+                    <h4 class="card-title mb-4">Le montant à payer à chaque actionnaire en fonction de sa part dans le capital et des prêts prévisionnels</h4>
+
+                    <div class="row">
+                        <!--<table class="table table-striped table-bordered"> -->
+                            <!-- <thead> -->
+                        <table id="datatable" class="table table-bordered dt-responsive nowrap w-100">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>Alias</th>
+                                    <th>Part (%)</th>
+                                    <th>Montant à Recevoir</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                            {% for action in actionnaires %}
+                                {% if action.comptepretsact_set.exists %}
+                                    {% for compte in action.comptepretsact_set.all %}
+                                        {% if compte.statut == "ACTIF" %}
+                                            <tr class="actif">
+                                                <td>{{ action.prenom }}</td>
+                                                <td>{{ action.part }} %</td>
+                                                <td>{{ action.montant_a_paye }} FCFA</td>
+                                            </tr>
+                                        {% else %}
+                                            <tr class="non-actif">
+                                                <td>{{ action.prenom }}</td>
+                                                <td>{{ action.part }} %</td>
+                                                <td>{{ action.montant_a_paye }} FCFA</td>
+                                            </tr>
+                                        {% endif %}
+                                    {% endfor %}
+                                {% else %}
+                                    <tr class="actif">
+                                        <td>{{ action.prenom }}</td>
+                                        <td>{{ action.part }} %</td>
+                                        <td>{{ action.montant_a_paye }} FCFA</td>
+                                    </tr>
+                                {% endif %}
+                            {% endfor %}
+
+                            </tbody>
+                        </table>
+                    </div>
+                    <br><br>
+                    <p>Montant total à répartir :</p> <span class="text-danger me-2"><h3>{{ total_montant_pret_previsionnel }}  FCFA</h3></span>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- end row -->
+<div class="row">
+    <div class="col-xl-6">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title mb-4">LISTE DES DEMANDES EN-COURS</h4>
+                <div class="row">
+                    <table id="datatable" class="table table-bordered dt-responsive nowrap w-100">
+                        <thead class="table-light">
+                            <tr>
+                                <th>Numero demande</th>
+                                <th>Montant souhaité</th>
+                                <th>Montant à rembourser</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for comptes_nactifsac in comptes_nactifsact %}
+                            <tr>
+                                <td>{{ comptes_nactifsac.numero_compte }} </td>
+                                <td>{{ comptes_nactifsac.somme_initiale }} FCFA</td>
+                                <td>{{ comptes_nactifsac.solde }}  FCFA</td>
+                                <td><span class="text-danger me-2">{{ comptes_nactifsac.statut }}</span></td>
+                            </tr>
+                            {% empty %}
+                            <tr>
+                                <td colspan="6">Aucune demande disponible.</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-6">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title mb-4">LISTE DES DEMANDES VALIDÉES</h4>
+                <div class="row">
+                    <table id="datatable" class="table table-bordered dt-responsive nowrap w-100">
+                        <thead class="table-light">
+                            <tr>
+                                <th>Numero demande</th>
+                                <th>Montant souhaité</th>
+                                <th>Montant à rembourser</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for comptes_actifsac in comptes_actifsact %}
+                            <tr>
+                                <td>{{ comptes_actifsac.numero_compte }} </td>
+                                <td>{{ comptes_actifsac.somme_initiale }} FCFA</td>
+                                <td>{{ comptes_actifsac.solde }}  FCFA</td>
+                                <td><span class="text-success me-2">{{ comptes_actifsac.statut }}</span></td>
+                            </tr>
+                            {% empty %}
+                            <tr>
+                                <td colspan="6">Aucune demande disponible.</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+<div class="row">
+
+    <div class="col-xl-4">
+        <div class="card">
+            <div class="card-body">
+                <!-- Affichage du donut des enseignants par genre -->
+                <div id="donut-enseignants" style="height: 400px; width: 400px;"></div>
+
+                <!-- Script pour créer le graphique -->
+                <script>
+                    // Récupérer les données des enseignants par genre depuis le contexte Django
+                    var maleCount = {{ male_countens }};
+                    var femaleCount = {{ female_countens }};
+
+                    // Créer le graphique en forme de donut
+                    var data = [{
+                        values: [maleCount, femaleCount],
+                        labels: ['Hommes', 'Femmes'],
+                        type: 'pie',
+                        hole: 0.4
+                    }];
+
+                    var layout = {
+                        title: 'RÉPARTITION DES CLIENTS PAR GENRE',
+                        height: 400,
+                        width: 400
+                    };
+
+                    Plotly.newPlot('donut-enseignants', data, layout);
+                </script>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-xl-4">
+        <div class="card">
+            <div class="card-body">
+                <div id="donut-graph" style="height: 400px; width: 400px;"></div>
+                <script>
+                    var data = [{
+                        values: [{{ echeances_payees }}, {{ echeances_non_payees }}],
+                        labels: ['Payées', 'Non Payées'],
+                        type: 'pie',
+                        marker: {
+                            colors: ['#827a7b', '#9e0512'] // Remplacez ces couleurs par celles de votre choix
+                        }
+                    }];
+
+                    var layout = {
+                        title: 'RÉPARTITION DES ÉCHÉANCES PAYÉES/NON PAYÉES',
+                        height: 400,
+                        width: 400
+                    };
+
+                    Plotly.newPlot('donut-graph', data, layout);
+                </script>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="col-xl-4">
+        <div class="card">
+            <div class="card-body">
+
+                <div id="donut-transactions" style="height: 400px; width: 400px;"></div>
+
+                <!-- Script pour créer le graphique -->
+                <script>
+                    // Récupérer les données des transactions par type depuis le contexte Django
+                    var depotCount = {{ depot_count }};
+                    var retraitCount = {{ retrait_count }};
+                    var virementCount = {{ virement_count }};
+
+                    // Créer le graphique en forme de donut
+                    var data = [{
+                        values: [depotCount, retraitCount, virementCount],
+                        labels: ['Dépôt', 'Retrait', 'Virement'],
+                        type: 'pie',
+                        marker: {
+                            colors: ['#0a0763', '#9291a3', '#0a0a12'] // Remplacez ces couleurs par celles de votre choix
+                        },
+                        hole: 0.4
+                    }];
+
+                    var layout = {
+                        title: 'RÉPARTITION DES TRANSACTIONS PAR TYPE',
+                        height: 400,
+                        width: 400
+                    };
+
+                    Plotly.newPlot('donut-transactions', data, layout);
+                </script>
+
+
+            </div>
+        </div>
+    </div>
+</div>
+<!-- end row -->
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title mb-4">PRÉVISION DU MOIS AVEC LES DÉPENSES</h4>
+                <div class="row">
+                    <table id="datatable-buttons" class="table table-bordered dt-responsive nowrap w-100">
+                        <thead class="table-light">
+                            <tr>
+                                <th class="align-middle">Alias</th>
+                                <th class="align-middle">Apport</th>
+                                <th class="align-middle">Part (%)</th>
+                                <th class="align-middle">Montant à Recevoir</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for actionnaire in actionnaires %}
+                            <tr>
+                                <td>{{ actionnaire.prenom }}</td>
+                                <td>{{ actionnaire.apport }} FCFA</td>
+                                <td>{{ actionnaire.part }}%</td>
+                                <td>{{ actionnaire.montant_a_payer }} FCFA</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                <!-- end table-responsive -->
+            </div>
+        </div>
+    </div>
+</div>
+<!-- end row -->
+
+</div> <!-- container-fluid -->
+</div>
+<!-- End Page-content -->
+
+
+    <style>
+        .non-actif {
+            color: red;
+        }
+    </style>
+{% endblock %}

@@ -1,0 +1,38 @@
+{% extends 'Base/base.html' %}
+
+{% block content %}
+<style>
+    /* Appliquer HelveticaNeue à l'ensemble du bloc de contenu */
+    body {
+        font-family: 'HelveticaNeue', sans-serif;
+    }
+
+    /* Style personnalisé pour les boutons */
+    .btn-custom {
+        background-color: #072C84;
+        color: white;
+        font-family: 'HelveticaNeue', sans-serif; /* Assurez-vous que la police est également appliquée ici */
+    }
+
+    /* Autres styles pour le tableau, titres, etc. */
+    h4, h6 {
+        font-family: 'HelveticaNeue', sans-serif;
+    }
+</style>
+<div class="row">
+    <div class="col-12">
+        <h1>Détails sur l'actionnaire</h1>
+        <p>Nom : {{ actionnaire.nom }}</p> 
+        <p>Prénom : {{ actionnaire.prenom }}</p>
+        <p>Adresse : {{ actionnaire.adresse }}</p>
+        <p>Téléphone : {{ actionnaire.telephone }}</p>
+        <p>Email : {{ actionnaire.email }}</p>
+        <p>Apport : {{ actionnaire.apport }}</p>
+        <p>Pourcentage : {{ actionnaire.pourcentage }}%</p>
+        <p>Dividende : {{ actionnaire.dividende }} F</p>
+    </div>
+    <div class="mt-4 hstack gap-2">
+        <a class="btn btn-soft-primary w-100" href="{% url 'liste_actionnaires' %}">Retour en Arrière</a>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,67 @@
+{% extends 'Base/base.html' %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+            <h4 class="mb-sm-0 font-size-18">KHAGest</h4>
+
+            <div class="page-title-right">
+                <ol class="breadcrumb m-0">
+                    <li class="breadcrumb-item"><a href="{% url 'courbe_transactions' %}">Tableau de bord</a></li>
+                    <li class="breadcrumb-item active">Répartition des Actionnaires</li>
+                </ol>
+            </div> 
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-12">
+        <h4>Résultats financiers du mois</h4>
+        <p>Bénéfice du mois pour le projet: {{ benefice_mois }} FCFA</p>
+        <p>Dépenses du mois pour le projet: {{ depenses_mois }} FCFA</p>
+        <p>Montant à répartir entre les actionnaires pour le projet: {{ montant_a_repartir }} FCFA</p>
+    
+        
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-6 d-flex align-items-center">
+                                <h6 class="mb-0">Répartition des bénéfices entre les actionnaires</h6>
+                            </div>
+                            
+                        </div><br><br>
+                        <table id="datatable-buttons" class="table table-bordered dt-responsive nowrap w-100">
+                            <thead class="table-light">
+                <tr> 
+                    <th>Nom de l'actionnaire</th>
+                    <th>Apport</th>
+                    <th>Part (%)</th>
+                    <th>Montant à payer</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for actionnaire in actionnaires %}
+                <tr>
+                    <td>{{ actionnaire.nom }}</td>
+                    <td>{{ actionnaire.apport }} FCFA</td>
+                    <td>{{ actionnaire.part }}%</td>
+                    <td>{{ actionnaire.montant_a_payer }} FCFA</td>
+                </tr>
+                
+                {% endfor %}
+                 <!-- Ajoutez une ligne pour afficher le total des apports -->
+                 <tr>
+                    <td><strong>Total des apports</strong></td>
+                    <td><strong>{{ total_apport }} FCFA</strong></td>
+                    
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+</div>
+</div>
+{% endblock content %}

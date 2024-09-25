@@ -1,0 +1,238 @@
+{% extends 'Base/base.html' %}
+
+{% block content %}
+<style>
+    /* Appliquer HelveticaNeue à l'ensemble du bloc de contenu */
+    body {
+        font-family: 'HelveticaNeue', sans-serif;
+    }
+
+    /* Style personnalisé pour les boutons */
+    .btn-custom {
+        background-color: #072C84;
+        color: white;
+        font-family: 'HelveticaNeue', sans-serif; /* Assurez-vous que la police est également appliquée ici */
+    }
+
+    /* Autres styles pour le tableau, titres, etc. */
+    h4, h6 {
+        font-family: 'HelveticaNeue', sans-serif;
+    }
+</style>
+<div class="row">
+    <div class="col-12">
+        <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+            <h4 class="mb-sm-0 font-size-18">KHA Coop</h4>
+
+            <div class="page-title-right">
+                <ol class="breadcrumb m-0">
+                    <li class="breadcrumb-item"><a href="{% url 'courbe_transactions' %}">Tableau de bord</a></li>
+                    <li class="breadcrumb-item active">Répartition des Actionnaires</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-12">
+        <h4>Résultats financiers du mois</h4>
+        <p>Bénéfice du mois pour le projet: {{ benefice_mois }} FCFA</p>
+        <p>Dépenses du mois pour le projet: {{ depenses_mois }} FCFA</p>
+        <p>Montant à répartir entre les actionnaires pour le projet: {{ montant_a_repartir }} FCFA</p>
+
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-6 d-flex align-items-center">
+                                <h6 class="mb-0">Répartition des bénéfices entre les actionnaires</h6>
+                            </div>
+                        </div>
+                        <br><br>
+                        <table id="datatable" class="table table-bordered dt-responsive  nowrap w-100">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>Alias</th>
+                                    <th>Nom de l'actionnaire</th>
+                                    <th>Téléphone</th>
+                                    <th>Apport</th>
+                                    <th>Part (%)</th>
+                                    <th>Montant à payer</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for actionnaire in actionnaires %}
+                                {% if actionnaire.comptepretsact_set.exists %}
+                                    {% for compte in actionnaire.comptepretsact_set.all %}
+                                        {% if compte.statut == "ACTIF" %}
+                                            <tr class="actif">
+                                                <td>{{ actionnaire.prenom }}</td>
+                                                <td>{{ actionnaire.nom }}</td>
+                                                <td>{{ actionnaire.telephone }}</td>
+                                                <td>{{ actionnaire.apport }} FCFA</td>
+                                                <td>{{ actionnaire.part }}%</td>
+                                                <td>{{ actionnaire.montant_a_payer }} FCFA</td>
+                                            </tr>
+                                        {% else %}
+                                            <tr class="non-actif">
+                                                <td>{{ actionnaire.prenom }}</td>
+                                                <td>{{ actionnaire.nom }}</td>
+                                                <td>{{ actionnaire.telephone }}</td>
+                                                <td>{{ actionnaire.apport }} FCFA</td>
+                                                <td>{{ actionnaire.part }}%</td>
+                                                <td>{{ actionnaire.montant_a_payer }} FCFA</td>
+                                            </tr>
+                                        {% endif %}
+                                    {% endfor %}
+                                {% else %}
+                                    <tr class="actif">
+                                        <td>{{ actionnaire.prenom }}</td>
+                                        <td>{{ actionnaire.nom }}</td>
+                                        <td>{{ actionnaire.telephone }}</td>
+                                        <td>{{ actionnaire.apport }} FCFA</td>
+                                        <td>{{ actionnaire.part }}%</td>
+                                        <td>{{ actionnaire.montant_a_payer }} FCFA</td>
+                                    </tr>
+                                {% endif %}
+                            {% endfor %}
+                                <!-- Ajoutez une ligne pour afficher le total des apports -->
+                                
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+                        <!-- end row -->
+                            <div class="col-xl-12">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h4 class="card-title mb-4"><iconify-icon icon="mdi:bank-circle" width="48" height="48"  style="color: #f00a0a"></iconify-icon></h4>
+
+                                        <div class="text-center">
+                                            
+                                            <h3>{{actionn}}</h3>
+                                            <p>Actionnaires</p>
+                                        </div>
+
+                                        <div class="table-responsive mt-4">
+                                            <table class="table align-middle table-nowrap">
+                                                <tbody>
+                                                    <tr>
+                                                        <td><strong>Total des apports</strong></td>
+                                                        <td><strong>{{ total_apport }} FCFA</strong></td>
+                                                                        
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        
+                        <!-- end row -->
+
+
+
+
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-6 d-flex align-items-center">
+                                <h6 class="mb-0">Répartition des bénéfices entre les actionnaires ayant un prêt en cours</h6>
+                            </div>
+                        </div>
+                        <br><br>
+                        <table id="datatable1" class="table table-bordered dt-responsive nowrap w-100">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>Alias</th>
+                                    <th>Nom de l'actionnaire</th>
+                                    <th>Téléphone</th>
+                                    <th>Apport</th>
+                                    <th>Part (%)</th>
+                                    <th>Montant à payer</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                                    {% for action in actionnaires %}
+                                        {% for compte in action.comptepretsact_set.all %}
+                                            <tr {% if compte.statut == "ACTIF" %} class="actif" {% else %} class="non-actif" {% endif %}>
+
+
+                                                <td>{{ action.prenom }}</td>
+                                                <td>{{ action.nom }}</td>
+                                                <td>{{ action.telephone }}</td>
+                                                <td>{{ action.apport }} FCFA</td>
+                                                <td>{{ action.part }}%</td>
+                                                <td>{{ action.montant_a_payer }} FCFA</td>
+                                            </tr>
+                                        {% endfor %}
+                                    {% endfor %}
+
+
+                                <!-- Ajoutez une ligne pour afficher le total des apports -->
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-6 d-flex align-items-center">
+                                <h6 class="mb-0">Répartition des bénéfices entre les actionnaires n'ayant pas un prêt en cours</h6>
+                            </div>
+                        </div>
+                        <br><br>
+                        <table id="datatable-buttons" class="table table-bordered dt-responsive nowrap w-100">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>Alias</th>
+                                    <th>Nom de l'actionnaire</th>
+                                    <th>Téléphone</th>
+                                    <th>Apport</th>
+                                    <th>Part (%)</th>
+                                    <th>Montant à payer</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                               {% for actionnaire in actionnaires %}
+                                    {% if not actionnaire.has_non_active_compte_pretsact %}
+                                        <tr class="actif">
+                                            <td>{{ actionnaire.prenom }}</td>
+                                            <td>{{ actionnaire.nom }}</td>
+                                            <td>{{ actionnaire.telephone }}</td>
+                                            <td>{{ actionnaire.apport }} FCFA</td>
+                                            <td>{{ actionnaire.part }}%</td>
+                                            <td>{{ actionnaire.montant_a_payer }} FCFA</td>
+                                        </tr>
+                                    {% endif %}
+                                {% endfor %}
+
+
+                                <!-- Ajoutez une ligne pour afficher le total des apports -->
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <style>
+        .non-actif {
+            color: red;
+        }
+    </style>
+{% endblock content %}
